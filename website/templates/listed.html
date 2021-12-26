@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+
+{% include 'header.html' %}
+
+<div class="proplist">
+  {%for item in items %}
+    <div class="prop" onclick="location.href='/specific/{{ item.id }}'" id="{{ item.id }}">
+      <div class="">
+        <img src="{{ item.photo }}">
+      </div>
+      £{{  "{:,.0f}".format(item.price) }} | {{ item.bedrooms}} bed | {{ item.address}}
+    </div>
+  {%endfor%}
+</div>
+
+
+<script src="/static/app.js"></script>
+</body>
+</html>

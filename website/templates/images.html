@@ -1,0 +1,18 @@
+
+<div id="gallery">
+  {%for image in item.photos %}
+    <div class="img">
+      <img id="img{{ loop.index }}" data-id="{{ loop.index }}" onclick="bigimg(this)" src={{ image }}>
+    </div>
+  {%endfor%}
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal" onKeyPress="handleInput(this.value)">
+  <!-- The Close Button -->
+  <span class="close">&times;</span>
+  <!-- Modal Content (The Image) -->
+  <img class="modal-content" id="modalImg">
+  <!-- Modal Caption (Image Text) -->
+  <div id="caption"></div>
+</div>

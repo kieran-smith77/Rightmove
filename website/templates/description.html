@@ -1,0 +1,22 @@
+<div style="flex-direction: column; height: 80vh">
+  <div style="height: 25%; ">
+    <h3>{{ item.propertyType.title() }}</h3>
+    <h3>{{ item.address.title() }}</h3>
+    <p>£{{  "{:,.0f}".format(item.price) }}</p>
+    <p>{{ item.bedrooms }} rooms</p>
+  </div>
+  <div style="height: 75%; %;overflow: auto;">
+    {% autoescape false %}
+      <p>{{ item.summary }}</p>
+      <br>
+      <ul>
+        {%for feature in item.features %}
+          <li>{{ feature.capitalize() }}</li>
+        {%endfor%}
+      </ul>
+      <br>
+      <p>{{ item.fullDescription }}</p>
+    {% endautoescape %}
+
+  </div>
+</div>
