@@ -5,7 +5,6 @@ import json
 db = TinyDB('/db/db.json')
 
 def get_new_item():
-    trans_dict = {"\"": "&quot;", }
     obj = Query()
     item = db.get(~ (obj.review.exists()))
     if item:
@@ -15,7 +14,6 @@ def get_new_item():
         return ""
 
 def get_item(id):
-    trans_dict = {"\"": "&quot;", }
     obj = Query()
 
     item = db.get(obj.id == id)
