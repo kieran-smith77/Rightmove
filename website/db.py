@@ -6,20 +6,25 @@ try:
     db = TinyDB('/db/db.json')
 except FileNotFoundError:
     db = TinyDB('../db/db.json')
+
 def get_new_item():
     obj = Query()
-    item = db.get(~ (obj.review.exists()))
+    try:
+        item = db.get(~ (obj.review.exists()))
+    except json.decoder.JSONDecodeError:
+        item = None
+
     if item:
         return collections.namedtuple("item", item.keys())(*item.values())
-
     else:
         return ""
 
 def get_item(id):
     obj = Query()
-
-    item = db.get(obj.id == id)
-
+    try:
+        item = db.get(obj.id == id)
+    except json.decoder.JSONDecodeError:
+        item = None
     if item:
         return collections.namedtuple("item", item.keys())(*item.values())
 
