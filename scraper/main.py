@@ -1,3 +1,4 @@
+#! /bin/python3
 from rightmove_webscraper import RightmoveData
 import requests
 import time

@@ -2,7 +2,7 @@ from tinydb import TinyDB, Query
 import collections
 import json
 
-db = TinyDB('../db.json')
+db = TinyDB('/db/db.json')
 
 def get_new_item():
     trans_dict = {"\"": "&quot;", }
