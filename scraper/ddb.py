@@ -4,7 +4,7 @@ from decimal import Decimal
 from tinydb import TinyDB, Query
 
 
-db = TinyDB('../db.json')
+db = TinyDB('../db/db.json')
 
 # dynamodb = boto3.resource('dynamodb')
 # table = dynamodb.Table('rm_properties')
