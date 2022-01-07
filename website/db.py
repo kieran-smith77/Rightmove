@@ -2,8 +2,10 @@ from tinydb import TinyDB, Query
 import collections
 import json
 
-db = TinyDB('/db/db.json')
-
+try:
+    db = TinyDB('/db/db.json')
+except FileNotFoundError:
+    db = TinyDB('../db/db.json')
 def get_new_item():
     obj = Query()
     item = db.get(~ (obj.review.exists()))

@@ -16,5 +16,12 @@
       <p>{{ item.fullDescription }}</p>
     {% endautoescape %}
 
+    <div id="map" data-longitude="{{item.longitude}}" data-latitude="{{item.latitude}}"></div>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEyo0dynAFvGutEaV7vaydfX7a00gd0m4&callback=initMap&libraries=&v=weekly"
+      async
+    ></script>
   </div>
 </div>
