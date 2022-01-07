@@ -2,4 +2,3 @@ rightmove-webscraper
 boto3
 tinydb
 progress
-Flask
