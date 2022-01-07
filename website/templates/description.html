@@ -7,8 +7,6 @@
   </div>
   <div style="height: 75%; %;overflow: auto;">
     {% autoescape false %}
-      <p>{{ item.summary }}</p>
-      <br>
       <ul>
         {%for feature in item.features %}
           <li>{{ feature.capitalize() }}</li>

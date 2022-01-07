@@ -34,9 +34,11 @@ def get_property(id):
         'propertyType': data['propertyType'],
         'letFurnishType': data['letFurnishType'],
         'url': data['publicsiteUrl'],
-        'summary': data['summary'],
         'fullDescription': data['fullDescription'],
+        'longitude': data['longitude'],
+        'latitude': data['latitude'],
     }
+    prop['floorplans'] = [x['url'] for x in data['floorplans']]
     prop['photos'] = [x['url'] for x in data['photos']]
     prop['features'] = [x['featureDescription'].strip() for x in data['features']]
     return prop
