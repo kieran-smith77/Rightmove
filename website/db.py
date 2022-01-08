@@ -15,6 +15,7 @@ def get_new_item():
         item = None
 
     if item:
+        item['photos'] += item['floorplans']
         return collections.namedtuple("item", item.keys())(*item.values())
     else:
         return ""
@@ -51,7 +52,6 @@ def get_old_items(good):
             'bedrooms': item['bedrooms']
         }
         data.append(collections.namedtuple("datum", datum.keys())(*datum.values()))
-
     return data
 
 def set_review(id, review):
