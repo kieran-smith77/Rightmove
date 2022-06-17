@@ -1,10 +1,12 @@
 import boto3
 import json
+from os.path import exists
 from decimal import Decimal
 from tinydb import TinyDB, Query
 
 
-db = TinyDB('../db/db.json')
+db = TinyDB('../db/db.json', create_dirs=True)
+
 
 def upload(records):
     for record in records:
