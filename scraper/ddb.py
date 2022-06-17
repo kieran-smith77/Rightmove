@@ -1,7 +1,3 @@
-import boto3
-import json
-from os.path import exists
-from decimal import Decimal
 from tinydb import TinyDB, Query
 
 
