@@ -7,9 +7,9 @@ import tools
 from progress.bar import Bar
 
 
-# Get the initial data
-url = "https://www.rightmove.co.uk/property-for-sale/find.html?searchType=SALE&locationIdentifier=REGION%5E94124&insId=1&radius=3.0&minPrice=200000&maxPrice=325000&minBedrooms=2&maxBedrooms=4&displayPropertyType=houses&maxDaysSinceAdded=&_includeSSTC=on&sortByPriceDescending=&primaryDisplayPropertyType=&secondaryDisplayPropertyType=&oldDisplayPropertyType=&oldPrimaryDisplayPropertyType=&newHome=&auction=false"
-rm = RightmoveData(url)
+# Copy the desired search term from the rightmove website to this variable below 
+search_url = "SEARCH URL HERE"
+rm = RightmoveData(search_url)
 
 print(rm.results_count, 'results matched search.')
 
