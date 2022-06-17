@@ -8,3 +8,7 @@ cd Rightmove
 crontab -l | { cat; echo "0 9 * * * cd $(pwd)/scraper && ./main.py"; } | crontab -
 docker run --rm -d -p 5000:5000 -v $(pwd)/db:/db  --name Rightmove $(docker build -q .)
 ```
+
+Next up :
+Add two player version
+Add bar at top to see joint likes
