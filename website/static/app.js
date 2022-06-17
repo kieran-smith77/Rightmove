@@ -25,12 +25,20 @@ span.onclick = function() {
 let touchstartX = 0
 let touchendX = 0
     
+// function checkDirection() {
+//   if (Math.abs())
+//   if (touchendX < touchstartX) var direction = 'left';
+//   if (touchendX > touchstartX) var direction = 'right';
+//   alert(direction)
+
+// }
+
 function checkDirection() {
-  if (Math.abs(touchstartX - touchendX) > 100) {
+  if (Math.abs(touchstartX - touchendX) > 450) {
     if (touchendX < touchstartX) {
-      let direction = 'left'
+      var direction = 'left'
     } else {
-      let direction = 'right'
+      var direction = 'right'
     }
     alert(direction)
   }
