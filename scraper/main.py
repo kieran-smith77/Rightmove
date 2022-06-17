@@ -8,7 +8,8 @@ from progress.bar import Bar
 
 
 # Copy the desired search term from the rightmove website to this variable below 
-search_url = "SEARCH URL HERE"
+with open("search.txt") as file:
+    search_url = file.read().strip()
 rm = RightmoveData(search_url)
 
 print(rm.results_count, 'results matched search.')
