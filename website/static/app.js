@@ -10,8 +10,14 @@ function bigimg(img){
   modalImg.src = img.src;
   captionText.innerHTML = img.alt;
   document.addEventListener("keydown", keyDownTextField, false);
+  document.addEventListener('click', outsideClickListener);  
 }
 
+function outsideClickListener(element){
+  if (element.srcElement.id == 'myModal') {
+    changeImage('esc')
+  }   
+}
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
@@ -24,24 +30,29 @@ span.onclick = function() {
 
 let touchstartX = 0
 let touchendX = 0
-    
-// function checkDirection() {
-//   if (Math.abs())
-//   if (touchendX < touchstartX) var direction = 'left';
-//   if (touchendX > touchstartX) var direction = 'right';
-//   alert(direction)
-
-// }
 
 function checkDirection() {
-  if (Math.abs(touchstartX - touchendX) > 450) {
+  if (modal && modal.style.display == "block" && Math.abs(touchstartX - touchendX) > 300) {
     if (touchendX < touchstartX) {
-      var direction = 'left'
+      changeImage('next')
     } else {
-      var direction = 'right'
+      changeImage('previous')
     }
-    alert(direction)
-  }
+  } else if ( Math.abs(touchstartX - touchendX) > 300) {
+    if (touchendX < touchstartX) {
+      if (window.location.pathname == '/bad-ones') {
+        window.location.href = '/'
+      } else if (window.location.pathname == '/'){
+        window.location.href = "/good-ones";
+      }
+    } else {
+      if (window.location.pathname == '/good-ones') {
+        window.location.href = '/'
+      } else if (window.location.pathname == '/') {
+        window.location.href = "/bad-ones";
+      }
+    }
+  } 
 }
 
 document.addEventListener('touchstart', e => {
@@ -55,25 +66,36 @@ document.addEventListener('touchend', e => {
 
 function keyDownTextField(e) {
   var keyCode = e.keyCode;
-  if(keyCode==37 || keyCode==38) {
+  if (keyCode==37 || keyCode==38) {
+    changeImage('previous')
+  } else if (keyCode==39 || keyCode==40) {
+    changeImage('next')
+  } else if (keyCode==27) {
+    changeImage('esc')
+  }
+}
+
+function changeImage(direction) {
+  if(direction == 'previous') {
     var currentid = modalImg.dataset.id
     var new_img = document.getElementById('img'+(parseInt(currentid)-1))
     if (!new_img) {
       new_img = document.getElementById('img1')
     }
     bigimg(new_img)
-  } else if (keyCode==39 || keyCode==40) {
+  } else if (direction == 'next') {
     var currentid = modalImg.dataset.id
     var new_img = document.getElementById('img'+(parseInt(currentid)+1))
     if (!new_img) {
       new_img = document.getElementById('img1')
     }
     bigimg(new_img)
-  } else if (keyCode==27) {
+  } else if (direction == 'esc') {
     modal.style.display = "none";
     document.removeEventListener("keydown", keyDownTextField, false);
+    document.removeEventListener('click', outsideClickListener);
   } else {
-    alert(keyCode);
+    alert(direction, 'unknown');
   }
 }
 
