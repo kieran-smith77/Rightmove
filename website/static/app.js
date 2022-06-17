@@ -26,7 +26,7 @@ let touchstartX = 0
 let touchendX = 0
     
 function checkDirection() {
-  if (Math.abs(touchstartX - touchendX) > 450) {
+  if (Math.abs(touchstartX - touchendX) > 100) {
     if (touchendX < touchstartX) {
       let direction = 'left'
     } else {
