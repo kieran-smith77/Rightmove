@@ -7,8 +7,6 @@ app = Flask(__name__, static_folder='static')
 @app.route('/')
 def home():
     data = db.get_new_item()
-    if isinstance(data, str):
-        return 'Go scrape some more'
     return render_template('home.html', item=data, good=None)
 
 @app.route('/specific/<id>')

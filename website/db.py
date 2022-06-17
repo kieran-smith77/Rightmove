@@ -5,7 +5,7 @@ import json
 try:
     db = TinyDB('/db/db.json')
 except FileNotFoundError:
-    db = TinyDB('../db/db.json')
+    db = TinyDB('../db/db.json', create_dirs=True)
 
 def get_new_item():
     obj = Query()
@@ -18,7 +18,10 @@ def get_new_item():
         item['photos'] += item['floorplans']
         return collections.namedtuple("item", item.keys())(*item.values())
     else:
-        return ""
+        empty_item = {
+            'id': '', 
+        }
+        return collections.namedtuple("item", empty_item.keys())(*empty_item.values())
 
 def get_item(id):
     obj = Query()

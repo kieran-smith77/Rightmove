@@ -8,16 +8,22 @@
 <body>
 
 {% include 'header.html' %}
+{% if item.id %}
 <div style="display: flex;">
-  <div style="flex: 50%;">
-    {% include 'description.html' %}
+    <div style="flex: 50%;">
+      {% include 'description.html' %}
+    </div>
+    <div style="flex: 50%; height: 80vh">
+      {% include 'images.html' %}
+    </div>
   </div>
-  <div style="flex: 50%; height: 80vh">
-    {% include 'images.html' %}
-  </div>
-</div>
+  {% else %}
+  <h1 style="text-align: center;">No more left to show</h1>
+  {% endif %}
 <div style="display: flex;justify-content: center; align-items: center; margin:15px;">
-{% include 'buttons.html' %}
+  {% if item.id %}
+  {% include 'buttons.html' %}
+  {% endif %}
 </div>
 <!-- {% include 'header.html' %} -->
 
