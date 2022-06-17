@@ -26,8 +26,14 @@ let touchstartX = 0
 let touchendX = 0
     
 function checkDirection() {
-  if (touchendX < touchstartX) alert('swiped left! ' + (touchstartX - touchendX))
-  if (touchendX > touchstartX) alert('swiped right! ' + (touchendX - touchstartX))
+  if (Math.abs(touchstartX - touchendX) > 450) {
+    if (touchendX < touchstartX) {
+      let direction = 'left'
+    } else {
+      let direction = 'right'
+    }
+    alert(direction)
+  }
 }
 
 document.addEventListener('touchstart', e => {
