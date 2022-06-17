@@ -39,7 +39,7 @@ function checkDirection() {
       changeImage('previous')
     }
   } else if ( Math.abs(touchstartX - touchendX) > 300) {
-    if (touchendX < touchstartX) {
+    if (touchendX > touchstartX) {
       if (window.location.pathname == '/bad-ones') {
         window.location.href = '/'
       } else if (window.location.pathname == '/'){
