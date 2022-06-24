@@ -2,19 +2,19 @@ from flask import Flask, render_template, redirect, url_for
 import db
 
 app = Flask(__name__, static_folder='static')
-
+app.config['TESTING'] = True
 
 @app.route('/')
 def home():
     data = db.get_new_item()
-    return render_template('home.html', item=data, good=None)
+    return render_template('index.html', item=data, good=None)
 
 @app.route('/specific/<id>')
 def specific(id):
     data = db.get_item(id)
     if isinstance(data, str):
         return 'Go scrape some more'
-    return render_template('home.html', item=data, good=None)
+    return render_template('index.html', item=data, good=None)
 
 
 @app.route('/Good/<id>')

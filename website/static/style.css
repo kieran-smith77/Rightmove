@@ -1,178 +1,122 @@
-html,
-body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            overflow: hidden;
-            position: absolute;
-            top: 0;
-            left: 0;
-}
-.nav {
-  width: 100vw !important;
-  background-color: #add8e6;
-  margin-bottom:5px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-#gallery {
-  display: grid;
-  height: 100%;
-  width: 100%;
-  padding: 5px;
-  grid-template-columns: repeat(2, 1fr);
-  overflow: auto;
-}
-
-#gallery img {
-  width: 100%;
-  margin: auto;
-  display: block;
-}
-
-.img {
-  min-width: 10px;
-  margin: 5px;
-  display: flex;
-}
-
-@media (max-width: 1000px) {
-   #gallery {
-     grid-template-columns: repeat(1, 1fr);
-
-   }
-}
-
-/* Style the Image Used to Trigger the Modal */
-#myImg {
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.img:hover {opacity: 0.7;}
-
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-}
-
-/* Modal Content (Image) */
-.modal-content {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
-  object-fit: cover;
-}
-
-
-/* Add Animation - Zoom in the Modal */
-.modal-content, #caption {
-  animation-name: zoom;
-  animation-duration: 0.6s;
-}
-
-@keyframes zoom {
-  from {transform:scale(0)}
-  to {transform:scale(1)}
-}
-
-/* The Close Button */
-.close {
-  position: absolute;
-  top: 15px;
-  right: 35px;
-  color: #f1f1f1;
-  font-size: 40px;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.close:hover,
-.close:focus {
-  color: #bbb;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/* 100% Image Width on Smaller Screens */
-@media only screen and (max-width: 700px){
-  .modal-content {
+/* Nav Bar */
+.navbar-header {
+    float: left;
+    text-align: center;
     width: 100%;
-  }
+}
+.navbar-brand {
+    float:none;
+}
+.navbar-nav {
+    max-width: 1000px;
+    margin:    0 auto;
+    width: 100%;
 }
 
-p {
-  margin-bottom: 0 !important;
+
+/* Carousel */
+.carousel-image {
+    max-height: 350px;
+    max-width: 95vw;
+    margin: auto;
 }
-.bottom-btn {
-  font-size: 30px !important;
+.car-center {
+    display: inline-flex;
+    margin-left: auto;
+    margin-right: auto
+}
+.car-container {
+    display:flex;
+    margin: 0 auto;
+    max-width: 95vw;
 }
 
-ul {
-  columns: 2;
-  -webkit-columns: 2;
-  -moz-columns: 2;
-  column-gap: 30px;
+.main {
+    max-width: 1000px;
+    margin:    0 auto;
+    display: flex;
+    align-content: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
-@media (max-width: 1200px) {
-   ul {
-     columns: 1;
-     -webkit-columns: 1;
-     -moz-columns: 1;
-   }
+.address {
+    padding-top: 5px;
+    background-color: Ivory;
+    
 }
-li {
-  break-inside: avoid-column; */
-
+.price-rooms {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px;
 }
-
-.proplist {
-  display: grid;
-  width: 100vw;
-  padding: 5px;
-  grid-template-columns: repeat(4, 1fr);
-  overflow: auto;
-  height: 90vh;
+.price {
+    background-color: cadetblue;
+    border-radius: 50%;
 }
 
-.prop {
-  /* margin: auto; */
-  width: 20vw;
-  padding: 5px;
-  background-color: #F0F8FF;
-  background-clip: content-box;
-
-}
-.prop img {
-  width: 100%;
-  display: block;
-  padding: 10px;
-  margin-top: auto;
-  margin-left: auto;
-  margin-right: auto;
-  background-clip: content-box;
-  overflow: hidden;
-  aspect-ratio: 1.5;
+.price h4 {
+    color: ivory;
 }
 
-#map {
-  height: 400px;
-  /* The height is 400 pixels */
-  width: 100%;
-  /* The width is the width of the web page */
+h5 {
+    padding-left: 10px;
 }
+
+.features-container {
+    display: flex;
+}
+
+.feature {
+    display: flexbox;
+}
+
+.accordion-collapse {
+    background-color: WhiteSmoke;
+}
+
+.rating-container {
+    width: 50vw;
+    max-width: 250px;
+    height: 75px;
+}
+
+.tick-button {
+    height: 53px;
+    width: 53px;
+    color: white; 
+    background-color:green; 
+    border-radius: 50%;
+    padding: 11px;
+}
+
+.cross-button {
+    height: 53px;
+    width: 53px;
+    color: white; 
+    background-color:red; 
+    border-radius: 50%;
+    padding: 11px;
+}
+
+.fa-xmark {
+    transform: translateX(24%);
+}
+
+.web-button {
+    height: 53px;
+    width: 53px;
+    color: white; 
+    background-color:blue; 
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.rating-container i {
+    color:ivory;
+}
+
+/* .card-img-top {
+    object-fit: cover;
+    aspect-ratio: 3 / 2;
+} */
