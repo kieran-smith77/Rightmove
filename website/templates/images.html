@@ -1,9 +1,9 @@
 <div class="car-container ">
-  <div id="carouselExampleControls" class="carousel slide car-center" data-bs-interval="false" data-bs-keyboard="true" data-bs-touch="true" data-bs-ride="carousel">
+  <div id="carouselExampleControls" class="carousel slide" data-bs-interval="false" data-bs-keyboard="true" data-bs-touch="true" data-bs-ride="carousel">
     <div class="carousel-inner shadow ">
       {%for image in item.photos %}
       <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
-        <img id="img{{ loop.index }}" data-id="{{ loop.index }}" onclick="bigimg(this)" src={{ image }}
+        <img id="img{{ loop.index }}" data-id="{{ loop.index }}" src={{ image }}
           class="carousel-image d-block rounded ">
       </div>
       {%endfor%}
