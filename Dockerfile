@@ -1,7 +1,4 @@
-FROM python:3.8-slim-buster
+FROM tiangolo/uwsgi-nginx-flask:flask
 WORKDIR /app
-COPY website/requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
 COPY website .
-EXPOSE 5000
-ENTRYPOINT [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+RUN pip install -r requirements.txt
