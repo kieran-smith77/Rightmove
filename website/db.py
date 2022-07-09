@@ -5,7 +5,10 @@ import json
 try:
     db = TinyDB('/db/db.json')
 except FileNotFoundError:
-    db = TinyDB('../db/db.json', create_dirs=True)
+    try:
+        db = TinyDB('../db/db.json', create_dirs=True)
+    except FileNotFoundError:
+        db = TinyDB('db/db.json', create_dirs=True)
 
 def get_new_item():
     obj = Query()
@@ -18,10 +21,7 @@ def get_new_item():
         item['photos'] += item['floorplans']
         return collections.namedtuple("item", item.keys())(*item.values())
     else:
-        empty_item = {
-            'id': '', 
-        }
-        return collections.namedtuple("item", empty_item.keys())(*empty_item.values())
+        ""
 
 def get_item(id):
     obj = Query()
@@ -29,21 +29,25 @@ def get_item(id):
         item = db.get(obj.id == id)
     except json.decoder.JSONDecodeError:
         item = None
+    
     if item:
         return collections.namedtuple("item", item.keys())(*item.values())
-
     else:
         return ""
 
 
-def get_old_items(good):
+def get_old_items(good=None):
     obj = Query()
-    if good:
+    if good == True:
         check = 'Good'
-    else:
+    elif good == False:
         check = 'Bad'
-    items = db.search(obj.review == check)
-
+    else:
+        check = None
+    if check:
+        items = db.search(obj.review == check)
+    else:
+        items = db.search(~ (obj.review.exists()))
     data = []
     for item in items:
         datum = {
