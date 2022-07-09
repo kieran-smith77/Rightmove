@@ -1,6 +1,7 @@
 #! /bin/python3
 from rightmove_webscraper import RightmoveData
 import requests
+import boto3
 import time
 import ddb
 import tools
@@ -34,3 +35,7 @@ else:
     print('No new listings found.')
 
 ddb.upload(all_results)
+
+s3 = boto3.client('s3')
+with open("../db/db.json", "rb") as f:
+    s3.upload_fileobj(f, "kieran-smith-rightmove-db", "db.json")

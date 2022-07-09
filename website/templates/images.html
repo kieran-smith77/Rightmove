@@ -1,18 +1,24 @@
+<div class="car-container ">
+  <div id="carouselExampleControls" class="carousel slide" data-bs-interval="false" data-bs-keyboard="true" data-bs-touch="true" data-bs-ride="carousel">
+    <div class="carousel-inner shadow ">
+      {%for image in item.photos %}
+      <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
+        <img id="img{{ loop.index }}" data-id="{{ loop.index }}" src={{ image }}
+          class="carousel-image d-block rounded ">
+      </div>
+      {%endfor%}
 
-<div id="gallery">
-  {%for image in item.photos %}
-    <div class="img">
-      <img id="img{{ loop.index }}" data-id="{{ loop.index }}" onclick="bigimg(this)" src={{ image }}>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
-  {%endfor%}
+  </div>
 </div>
-
-<!-- The Modal -->
-<div id="myModal" class="modal" onKeyPress="handleInput(this.value)">
-  <!-- The Close Button -->
-  <span class="close">&times;</span>
-  <!-- Modal Content (The Image) -->
-  <img class="modal-content" id="modalImg">
-  <!-- Modal Caption (Image Text) -->
-  <div id="caption"></div>
-</div>
+<br>

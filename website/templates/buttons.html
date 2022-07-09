@@ -1,5 +1,21 @@
-<div class="buttons">
-<a class="btn btn-success bottom-btn" href="/Good/{{ item.id }}" role="button">✅</a>
-<a class="btn btn-info bottom-btn" href="{{ item.url }}" target='_blank' role="button">☁️</a>
-<a class="btn btn-danger bottom-btn" href="/Bad/{{ item.id }}" role="button">⛔️</a>
+<div class="fixed-bottom d-flex justify-content-center mb-5">
+    <div class="d-flex justify-content-between rating-container">
+
+        <div class="align-self-end cross-button" href>
+            <a href="/Bad/{{ item.id }}" role="button">
+            <i class="fa-regular fa-xmark fa-2x"></i>
+            </a>   
+        </div>
+        <div class="align-self-start web-button">
+            <a href="{{ item.url }}" target='_blank' role="button">
+            <i class="fa-regular fa-window-restore fa-2x "></i>
+            </a>
+        </div>
+        <div class="align-self-end tick-button">
+            <a href="/Good/{{ item.id }}" role="button">
+            <i class="fa-regular fa-check fa-2x"></i>
+        </a>
+        </div>
+
+    </div>
 </div>
