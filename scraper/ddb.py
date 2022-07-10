@@ -1,7 +1,15 @@
 from tinydb import TinyDB, Query
+import boto3
+from os import makedirs, path
 
+filename = '/db/db.json'
+makedirs(path.dirname(filename), exist_ok=True)
 
-db = TinyDB('../db/db.json', create_dirs=True)
+s3 = boto3.client('s3')
+with open(filename, "wb") as f:
+    s3.download_fileobj("kieran-smith-rightmove-db", "db.json", f)
+
+db = TinyDB(filename)
 
 
 def upload(records):

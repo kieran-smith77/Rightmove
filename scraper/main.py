@@ -1,6 +1,5 @@
 #! /bin/python3
 from rightmove_webscraper import RightmoveData
-import requests
 import boto3
 import time
 import ddb
@@ -8,9 +7,12 @@ import tools
 from progress.bar import Bar
 import webhooks
 
-# Copy the desired search term from the rightmove website to this variable below 
-with open("search.txt") as file:
-    search_url = file.read().strip()
+ssm = boto3.client('ssm')
+search_url = client.get_parameter(
+    Name='search_url',
+    WithDecryption=False
+).strip()
+
 rm = RightmoveData(search_url)
 
 print(rm.results_count, 'results matched search.')
@@ -37,5 +39,5 @@ else:
 ddb.upload(all_results)
 
 s3 = boto3.client('s3')
-with open("../db/db.json", "rb") as f:
+with open("/db/db.json", "rb") as f:
     s3.upload_fileobj(f, "kieran-smith-rightmove-db", "db.json")

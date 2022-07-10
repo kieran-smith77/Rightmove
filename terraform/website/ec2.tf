@@ -95,7 +95,7 @@ resource "aws_instance" "web_server" {
   instance_type          = "t3a.nano"
   key_name               = "Rightmove"
   vpc_security_group_ids = [aws_security_group.rightmove.id]
-  user_data              = file("../server_setup.sh")
+  user_data              = file("server_setup.sh")
   iam_instance_profile = "${aws_iam_instance_profile.rightmove.name}"
   tags = {
     Name = "RightmoveServer"

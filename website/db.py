@@ -11,6 +11,7 @@ except FileNotFoundError:
         db = TinyDB('db/db.json', create_dirs=True)
 
 def get_new_item():
+    db.clear_cache()
     obj = Query()
     try:
         item = db.get(~ (obj.review.exists()))
@@ -24,6 +25,7 @@ def get_new_item():
         ""
 
 def get_item(id):
+    db.clear_cache()
     obj = Query()
     try:
         item = db.get(obj.id == id)
@@ -37,6 +39,7 @@ def get_item(id):
 
 
 def get_old_items(good=None):
+    db.clear_cache()
     obj = Query()
     if good == True:
         check = 'Good'
