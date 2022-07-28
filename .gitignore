@@ -6,3 +6,5 @@ venv
 .terraform
 *.tfstate
 *.hcl
+search.txt
+webhooks.txt
