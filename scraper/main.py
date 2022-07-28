@@ -1,4 +1,4 @@
-#! /bin/python3
+#! python3
 from rightmove_webscraper import RightmoveData
 import requests
 import boto3
@@ -8,23 +8,24 @@ import tools
 from progress.bar import Bar
 import webhooks
 
-# Copy the desired search term from the rightmove website to this variable below 
-with open("search.txt") as file:
-    search_url = file.read().strip()
+ssm = boto3.client('ssm')
+parameter = ssm.get_parameter(Name='rightmove_searches')
+search_url = parameter['Parameter']['Value'].split(',')[0]
+
 rm = RightmoveData(search_url)
 
 print(rm.results_count, 'results matched search.')
 
-all_results = {}
+all_results = []
 new_listings = 0
 
 bar = Bar('Processing', max=rm.results_count)
 for i in rm.get_results['url']:
-    id = i.split('/')[-2].replace('#','')
+    id = int(i.split('/')[-2].replace('#',''))
     if not ddb.exists(id):
         new_listings += 1
-        all_results[id] = tools.get_property(id)
-    time.sleep(0.5)
+        time.sleep(0.5)
+        all_results.append(tools.get_property(id))
     bar.next()
 bar.finish()
 
@@ -35,7 +36,3 @@ else:
     print('No new listings found.')
 
 ddb.upload(all_results)
-
-s3 = boto3.client('s3')
-with open("../db/db.json", "rb") as f:
-    s3.upload_fileobj(f, "kieran-smith-rightmove-db", "db.json")

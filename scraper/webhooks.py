@@ -1,12 +1,9 @@
 import requests
+import boto3
 
 def alert(count):
-    webhooks = []
-    try:
-        with open('webhooks.txt') as file:
-            for line in file:
-                webhooks.append(line.strip())
-    except FileNotFoundError:
-        print('No webhooks found.')
+    ssm = boto3.client('ssm')
+    parameter = ssm.get_parameter(Name='rightmove_searches')
+    webhooks = parameter['Parameter']['Value'].split(',')
     for webhook in webhooks:
         requests.post(webhook, json={"value1": str(count)})

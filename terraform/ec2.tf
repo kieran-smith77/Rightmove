@@ -81,6 +81,17 @@ resource "aws_iam_policy" "rightmove_policy" {
           "${aws_s3_bucket.db_store.arn}/*"
         ]
       },
+      {
+        Action = [
+          "ssm:GetParameter",
+          "ssm:DescribeParameters",
+        ]
+        Effect = "Allow"
+        Resource = [
+          aws_ssm_parameter.webhooks.arn,
+          aws_ssm_parameter.searches.arn,
+        ]
+      },
     ]
   })
 }
