@@ -7,4 +7,13 @@ resource "aws_dynamodb_table" "storage_table" {
         name = "id"
         type = "N"
     }
+    attribute {
+        name = "review"
+        type = "S"
+    }
+    global_secondary_index {
+        hash_key = "review"
+        name = "review"
+        projection_type = "ALL"
+    }
 }

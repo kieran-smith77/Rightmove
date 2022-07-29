@@ -1,43 +1,42 @@
-from tinydb import TinyDB, Query
+from random import randrange
+import boto3
 import collections
 import json
+from boto3.dynamodb.conditions import Key
 
-try:
-    db = TinyDB('/db/db.json')
-except FileNotFoundError:
-    try:
-        db = TinyDB('../db/db.json', create_dirs=True)
-    except FileNotFoundError:
-        db = TinyDB('db/db.json', create_dirs=True)
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table('rightmove_table')
 
 def get_new_item():
-    obj = Query()
+    # return first item without review 
+    response = table.query(
+        IndexName='review',
+        KeyConditionExpression=Key('review').eq("none")
+    )
     try:
-        item = db.get(~ (obj.review.exists()))
-    except json.decoder.JSONDecodeError:
-        item = None
-
-    if item:
+        rn = randrange(len(response["Items"]))
+        item = response.get('Items')[rn]
         item['photos'] += item['floorplans']
         return collections.namedtuple("item", item.keys())(*item.values())
-    else:
-        ""
+    except KeyError:
+        return ""
 
 def get_item(id):
-    obj = Query()
-    try:
-        item = db.get(obj.id == id)
-    except json.decoder.JSONDecodeError:
-        item = None
-    
-    if item:
+    # return item by id
+    response = table.query(
+        KeyConditionExpression=Key('id').eq(id)
+    )
+
+
+    if "Items" in response:
+        item = response['Items'][0]
         return collections.namedtuple("item", item.keys())(*item.values())
     else:
         return ""
 
 
 def get_old_items(good=None):
-    obj = Query()
+    # Scan ddb for items where review = good
     if good == True:
         check = 'Good'
     elif good == False:
@@ -45,9 +44,22 @@ def get_old_items(good=None):
     else:
         check = None
     if check:
-        items = db.search(obj.review == check)
+        response = table.query(
+            IndexName='review',
+            KeyConditionExpression=Key('review').eq(check)
+        )
     else:
-        items = db.search(~ (obj.review.exists()))
+        response = table.query(
+            IndexName='review',
+            KeyConditionExpression=Key('review').eq(None)
+        )
+    if "Items" in response:
+        print(response)
+        items = response['Items']
+    else:
+        print(response) 
+        items = [] 
+
     data = []
     for item in items:
         datum = {
@@ -62,9 +74,12 @@ def get_old_items(good=None):
     return data
 
 def set_review(id, review):
-    print('set')
+    # update item with review = review
     if review not in ['Good', 'Bad']:
         return None
-    obj = Query()
-    db.update({'review': review}, obj.id == id)
+    
+    table.update_item(
+        Key={'id': id},
+        AttributeUpdates={ "review":review}
+    )
     return None
