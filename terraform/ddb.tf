@@ -18,7 +18,7 @@ resource "aws_dynamodb_table" "storage_table" {
     }
     ttl {
         attribute_name = "TimeToLive"
-        enabled        = false
+        enabled        = true
     }
     lifecycle {
         prevent_destroy = true

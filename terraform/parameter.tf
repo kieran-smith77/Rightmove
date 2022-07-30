@@ -1,6 +1,6 @@
 # Parameter store for Webhook
 resource "aws_ssm_parameter" "webhooks" {
-  name  = "rightmove/scraper/webhooks"
+  name  = "/rightmove/scraper/webhooks"
   type  = "StringList"
   value = " "
   lifecycle {
@@ -11,7 +11,7 @@ resource "aws_ssm_parameter" "webhooks" {
 }
 # Parameter store for search term
 resource "aws_ssm_parameter" "searches" {
-  name  = "rightmove/scraper/searches"
+  name  = "/rightmove/scraper/searches"
   type  = "StringList"
   value = " "
   lifecycle {
@@ -21,8 +21,8 @@ resource "aws_ssm_parameter" "searches" {
   }
 }
 
-resource "aws_ssm_parameter" "searches" {
-  name  = "rightmove/app/secretkey"
+resource "aws_ssm_parameter" "secretkey" {
+  name  = "/rightmove/app/secretkey"
   type  = "String"
   value = " "
   lifecycle {
