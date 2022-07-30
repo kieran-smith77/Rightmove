@@ -10,6 +10,7 @@ table = dynamodb.Table('rightmove_table')
 def upload(records):
     with table.batch_writer() as batch:
         for record in records:
+            record['review']='none'
             record['scraped_date']=int(time.time())
             record = json.loads(json.dumps(record), parse_float=Decimal)
             batch.put_item(Item=record)

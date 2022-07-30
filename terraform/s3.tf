@@ -45,10 +45,9 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "code_store_encypt
 
 resource "null_resource" "remove_and_upload_to_s3" {
   provisioner "local-exec" {
-    command = "aws s3 sync ../website s3://${aws_s3_bucket.code_store.id} --delete --profile personal"
+    command = "aws s3 sync ../website s3://${aws_s3_bucket.code_store.id}  --exclude 'venv/*' --delete --profile personal"
   }
   triggers = {
-    build_number = "7"
+    build_number = "13"
   }
-
 }

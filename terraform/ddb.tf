@@ -16,4 +16,7 @@ resource "aws_dynamodb_table" "storage_table" {
         name = "review"
         projection_type = "ALL"
     }
+    lifecycle {
+        prevent_destroy = true
+    }
 }

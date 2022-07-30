@@ -15,7 +15,7 @@ resource "aws_security_group" "rightmove" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${trimspace(data.http.myip.body)}/32"]
+    cidr_blocks = ["${trimspace(data.http.myip.body)}/32", "0.0.0.0/0"]
   }
 
   ingress {
@@ -92,6 +92,19 @@ resource "aws_iam_policy" "rightmove_policy" {
           aws_ssm_parameter.searches.arn,
         ]
       },
+            {
+        Action = [
+          "dynamodb:Query",
+          "dynamodb:Scan",
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+        ]
+        Effect = "Allow"
+        Resource = [
+          "${aws_dynamodb_table.storage_table.arn}/*",
+          "${aws_dynamodb_table.storage_table.arn}",
+        ]
+      },
     ]
   })
 }
@@ -111,5 +124,4 @@ resource "aws_instance" "web_server" {
   tags = {
     Name = "RightmoveServer"
   }
-
 }

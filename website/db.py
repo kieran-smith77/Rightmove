@@ -4,7 +4,7 @@ import collections
 import json
 from boto3.dynamodb.conditions import Key
 
-dynamodb = boto3.resource('dynamodb')
+dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
 table = dynamodb.Table('rightmove_table')
 
 def get_new_item():
@@ -13,12 +13,12 @@ def get_new_item():
         IndexName='review',
         KeyConditionExpression=Key('review').eq("none")
     )
-    try:
+    if response["Items"]:
         rn = randrange(len(response["Items"]))
         item = response.get('Items')[rn]
         item['photos'] += item['floorplans']
         return collections.namedtuple("item", item.keys())(*item.values())
-    except KeyError:
+    else:
         return ""
 
 def get_item(id):
@@ -51,7 +51,7 @@ def get_old_items(good=None):
     else:
         response = table.query(
             IndexName='review',
-            KeyConditionExpression=Key('review').eq(None)
+            KeyConditionExpression=Key('review').eq('none')
         )
     if "Items" in response:
         print(response)
@@ -79,7 +79,8 @@ def set_review(id, review):
         return None
     
     table.update_item(
-        Key={'id': id},
-        AttributeUpdates={ "review":review}
+        Key={'id': int(id)},
+        UpdateExpression="SET review = :review",
+        ExpressionAttributeValues={":review": review},
     )
     return None
