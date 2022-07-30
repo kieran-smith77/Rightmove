@@ -17,7 +17,7 @@ resource "aws_dynamodb_table" "storage_table" {
         projection_type = "ALL"
     }
     ttl {
-        attribute_name = "TTL"
+        attribute_name = "TimeToLive"
         enabled        = false
     }
     lifecycle {

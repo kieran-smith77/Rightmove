@@ -22,7 +22,7 @@ def exists(id):
     if 'Item' in item:
         table.update_item(
             Key={'id': int(id)},
-            UpdateExpression="SET TTL = :TTL",
+            UpdateExpression="SET TimeToLive = :TTL",
             ExpressionAttributeValues={":TTL": int(time.time())+1209600}, # Current time + two weeks
         )
         return True
