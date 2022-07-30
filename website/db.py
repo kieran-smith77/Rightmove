@@ -1,9 +1,9 @@
-from operator import truediv
 from random import randrange
 import boto3
 import collections
-import json
 from boto3.dynamodb.conditions import Key
+from bcrypt import hashpw, gensalt, checkpw
+import base64
 
 dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
 table = dynamodb.Table('rightmove_table')
@@ -85,17 +85,17 @@ def set_review(id, review):
     )
     return None
 
-def verify_user(user,password_hash):
+def verify_user(user,password):
+    password=bytes(password, encoding='utf-8')
     response = user_table.query(
-        KeyConditionExpression=Key('user').eq(user),
-        AttributesToGet=[
-            'password',
-        ],
+        IndexName='username',
+        KeyConditionExpression=Key('username').eq(user),
+        ProjectionExpression='password',
     )
-    if response['Item']:
-        if response['Item']['password'] == password_hash:
-            return "Verified"
+    if response['Items']:
+        if checkpw(password, bytes(response['Items'][0]['password'],encoding='utf-8')):
+            return True
         else:
-            return "Password did not match"
+            return False
     else:
-        return "User not found"
+        return None

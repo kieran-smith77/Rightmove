@@ -1,25 +1,37 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request, session
 import db
-from bcrypt import hashpw
+import asm
 
 app = Flask(__name__, static_folder='static')
 
-@app.route('/login', methods=['post'])
+app.secret_key = asm.get_secret_key()
+
+@app.route('/login', methods=['post', 'get'])
 def login(user=None):
-    if request.method=='POST':
+    session.pop('session', default=None)
+    if request.method=='GET':
+        return render_template('login.html')
+    elif request.method=='POST':
         user = request.form['user'].lower()
-        password_hash = hashpw(bytes(request.form['password']+email))
-        print(user, password_hash)
-        db.verify(user, password_hash)
-        print(db.verify)
+        password = request.form['password']
+        verified = db.verify_user(user, password)
+        if verified:
+            session['session']='123'
+            return redirect(url_for('home'))
+        elif verified == False:
+            return "Password does not match"
+        else:
+            return "User not found"
 
 @app.route('/register', methods=['post'])
 def register(user=None):
-    pass
+    return redirect(url_for('home'))
+    
 
 @app.route('/logout')
 def logout():
-    pass
+    session.pop('user', default=None)
+    return redirect(url_for('home'))
 
 @app.route('/')
 def home(user=None):
