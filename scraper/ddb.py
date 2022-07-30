@@ -11,7 +11,7 @@ def upload(records):
     with table.batch_writer() as batch:
         for record in records:
             record['review']='none'
-            record['TTL']=int(time.time())+1209600 # Current Time + 2 weeks
+            record['TimeToLive']=int(time.time())+1209600 # Current Time + 2 weeks
             record = json.loads(json.dumps(record), parse_float=Decimal)
             batch.put_item(Item=record)
 
