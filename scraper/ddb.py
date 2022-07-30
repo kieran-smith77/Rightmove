@@ -20,6 +20,11 @@ def exists(id):
         Key={"id": id}
     )
     if 'Item' in item:
+        table.update_item(
+            Key={'id': int(id)},
+            UpdateExpression="SET scraped_date = :scraped_date",
+            ExpressionAttributeValues={":scraped_date": int(time.time())},
+        )
         return True
     return False
 
