@@ -9,6 +9,10 @@ user_table = dynamodb.Table('rightmove_users')
 
 
 def verify_user(user,password):
+    if len(user) < 3 or len(user) > 20:
+        return None
+    if len(password) < 8 or len(password) > 200:
+        return False
     password=bytes(password, encoding='utf-8')
     response = user_table.query(
         IndexName='username',

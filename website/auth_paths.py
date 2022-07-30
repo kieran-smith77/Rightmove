@@ -17,9 +17,9 @@ def login():
             session['session']=verified
             return redirect(url_for('home'))
         elif verified == False:
-            return "Password does not match"
+            return render_template('login.html', err="pass", user = user)
         else:
-            return "User not found"
+            return render_template('login.html', err="user", user = user)
 
 @app.route('/register', methods=['get','post'])
 def register():

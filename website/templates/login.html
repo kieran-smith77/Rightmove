@@ -27,8 +27,18 @@
         <div class="card my-1 mx-auto" style="width: 18rem;">
             <form method="post" action="/login">
                 <h2 class=>Login Form</h2>
-                <div class="form-group"><input class="form-control" type="username" name="user" placeholder="Username"></div>
+                <div class="form-group"><input class="form-control" type="username" name="user" placeholder="Username" value="{{ user }}"></div>
+                {% if err == "user" %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i> User not found
+                </div>
+                {% endif %}
                 <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
+                {% if err == "pass" %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Password is incorrect
+                </div>
+                {% endif %}
                 <div class="form-group">
                     <input type="submit" name="submit" value="Login" class="btn btn-primary btn-block">
                 </div>
