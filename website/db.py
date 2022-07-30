@@ -1,7 +1,6 @@
 from random import randrange
 import boto3
 import collections
-import json
 from boto3.dynamodb.conditions import Key
 
 dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
@@ -26,8 +25,7 @@ def get_item(id):
     response = table.query(
         KeyConditionExpression=Key('id').eq(int(id))
     )
-
-    if "Items" in response:
+    if response['Items']:
         item = response['Items'][0]
         return collections.namedtuple("item", item.keys())(*item.values())
     else:

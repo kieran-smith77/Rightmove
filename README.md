@@ -16,7 +16,5 @@ docker run --rm -d -p 5000:5000 -v $(pwd)/db:/db  --name Rightmove $(docker buil
 ```
 
 Future ideas:
- - 2 player T4R ( allow two users to vote individually and present "matches" where both users like a house)
- - Responsive design for mobile
- - Maybe just rewrite the entire front end in something that's not raw HTML and flask?
- - 
+ - Add MFA
+ - Support multiple users
