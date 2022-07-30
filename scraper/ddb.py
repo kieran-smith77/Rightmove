@@ -11,7 +11,7 @@ def upload(records):
     with table.batch_writer() as batch:
         for record in records:
             record['review']='none'
-            record['scraped_date']=int(time.time())
+            record['TTL']=int(time.time())+1209600 # Current Time + 2 weeks
             record = json.loads(json.dumps(record), parse_float=Decimal)
             batch.put_item(Item=record)
 
@@ -22,8 +22,8 @@ def exists(id):
     if 'Item' in item:
         table.update_item(
             Key={'id': int(id)},
-            UpdateExpression="SET scraped_date = :scraped_date",
-            ExpressionAttributeValues={":scraped_date": int(time.time())},
+            UpdateExpression="SET TTL = :TTL",
+            ExpressionAttributeValues={":TTL": int(time.time())+1209600}, # Current time + two weeks
         )
         return True
     return False
