@@ -1,3 +1,5 @@
 Flask
 flask-htpasswd
 boto3
+bcrypt
+flask-jwt-extended

@@ -1,13 +1,25 @@
 from flask import Flask, render_template, redirect, url_for
-from flask_htpasswd import HtPasswdAuth
 import db
+from bcrypt import hashpw
 
 app = Flask(__name__, static_folder='static')
-app.config['TESTING'] = True
-app.config['FLASK_HTPASSWD_PATH'] = '.htpasswd'
-app.config['FLASK_AUTH_ALL']=True
 
-htpasswd = HtPasswdAuth(app)
+@app.route('/login', methods=['post'])
+def login(user=None):
+    if request.method=='POST':
+        user = request.form['user'].lower()
+        password_hash = hashpw(bytes(request.form['password']+email))
+        print(user, password_hash)
+        db.verify(user, password_hash)
+        print(db.verify)
+
+@app.route('/register', methods=['post'])
+def register(user=None):
+    pass
+
+@app.route('/logout')
+def logout():
+    pass
 
 @app.route('/')
 def home(user=None):

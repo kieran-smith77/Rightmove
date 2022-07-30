@@ -1,3 +1,4 @@
+from operator import truediv
 from random import randrange
 import boto3
 import collections
@@ -6,6 +7,7 @@ from boto3.dynamodb.conditions import Key
 
 dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
 table = dynamodb.Table('rightmove_table')
+user_table = dynamodb.Table('rightmove_users')
 
 def get_new_item():
     # return first item without review 
@@ -26,8 +28,7 @@ def get_item(id):
     response = table.query(
         KeyConditionExpression=Key('id').eq(int(id))
     )
-
-    if "Items" in response:
+    if response['Items']:
         item = response['Items'][0]
         return collections.namedtuple("item", item.keys())(*item.values())
     else:
@@ -83,3 +84,18 @@ def set_review(id, review):
         ExpressionAttributeValues={":review": review},
     )
     return None
+
+def verify_user(user,password_hash):
+    response = user_table.query(
+        KeyConditionExpression=Key('user').eq(user),
+        AttributesToGet=[
+            'password',
+        ],
+    )
+    if response['Item']:
+        if response['Item']['password'] == password_hash:
+            return "Verified"
+        else:
+            return "Password did not match"
+    else:
+        return "User not found"
