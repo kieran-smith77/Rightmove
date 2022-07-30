@@ -92,7 +92,17 @@ resource "aws_iam_policy" "rightmove_policy" {
           aws_ssm_parameter.searches.arn,
         ]
       },
-            {
+      {
+        Action = [
+          "ssm:GetParameter",
+          "ssm:DescribeParameters",
+        ]
+        Effect = "Allow"
+        Resource = [
+          "arn:aws:ssm:eu-west-2:374523148790:parameter/rightmove/app/*",
+        ]
+      },
+      {
         Action = [
           "dynamodb:Query",
           "dynamodb:Scan",

@@ -17,7 +17,7 @@ def verify_user(user,password):
     )
     if response['Items']:
         if checkpw(password, bytes(response['Items'][0]['password'],encoding='utf-8')):
-            return response['Items'][0]['userID']
+            return int(response['Items'][0]['userID'])
         else:
             return False
     else:
