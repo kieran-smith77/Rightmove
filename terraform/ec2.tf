@@ -2,9 +2,6 @@ locals {
   ami = "ami-0fb391cce7a602d1f"
 }
 
-data "http" "myip" {
-  url = "http://ifconfig.io"
-}
 
 resource "aws_security_group" "rightmove" {
   name        = "rightmove"
@@ -15,7 +12,7 @@ resource "aws_security_group" "rightmove" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${trimspace(data.http.myip.body)}/32", "0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {

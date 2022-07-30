@@ -48,6 +48,6 @@ resource "null_resource" "remove_and_upload_to_s3" {
     command = "aws s3 sync ../website s3://${aws_s3_bucket.code_store.id}  --exclude 'venv/*' --delete --profile personal"
   }
   triggers = {
-    build_number = "15"
+    build_number = "16"
   }
 }
