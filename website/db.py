@@ -24,9 +24,8 @@ def get_new_item():
 def get_item(id):
     # return item by id
     response = table.query(
-        KeyConditionExpression=Key('id').eq(id)
+        KeyConditionExpression=Key('id').eq(int(id))
     )
-
 
     if "Items" in response:
         item = response['Items'][0]
