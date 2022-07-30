@@ -31,3 +31,14 @@ resource "aws_ssm_parameter" "secretkey" {
     ]
   }
 }
+
+resource "aws_ssm_parameter" "registration_status" {
+  name  = "/rightmove/app/registration"
+  type  = "String"
+  value = "True"
+  lifecycle {
+    ignore_changes = [
+      value,
+    ]
+  }
+}

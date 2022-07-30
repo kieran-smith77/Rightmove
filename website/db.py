@@ -2,12 +2,9 @@ from random import randrange
 import boto3
 import collections
 from boto3.dynamodb.conditions import Key
-from bcrypt import hashpw, gensalt, checkpw
-import base64
 
 dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
 table = dynamodb.Table('rightmove_table')
-user_table = dynamodb.Table('rightmove_users')
 
 def get_new_item():
     # return first item without review 
@@ -84,18 +81,3 @@ def set_review(id, review):
         ExpressionAttributeValues={":review": review},
     )
     return None
-
-def verify_user(user,password):
-    password=bytes(password, encoding='utf-8')
-    response = user_table.query(
-        IndexName='username',
-        KeyConditionExpression=Key('username').eq(user),
-        ProjectionExpression='password',
-    )
-    if response['Items']:
-        if checkpw(password, bytes(response['Items'][0]['password'],encoding='utf-8')):
-            return True
-        else:
-            return False
-    else:
-        return None

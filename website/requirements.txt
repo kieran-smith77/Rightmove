@@ -1,5 +1,4 @@
 Flask
-flask-htpasswd
 boto3
 bcrypt
-flask-jwt-extended
+password_strength
