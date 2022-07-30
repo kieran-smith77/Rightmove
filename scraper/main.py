@@ -9,7 +9,7 @@ from progress.bar import Bar
 import webhooks
 
 ssm = boto3.client('ssm')
-parameter = ssm.get_parameter(Name='rightmove_searches')
+parameter = ssm.get_parameter(Name='rightmove/scraper/searches')
 search_url = parameter['Parameter']['Value'].split(',')[0]
 
 rm = RightmoveData(search_url)
