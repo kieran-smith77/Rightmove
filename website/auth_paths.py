@@ -28,14 +28,24 @@ def register():
         return redirect(url_for('home'))
 
     if request.method=='GET':
-        return render_template('register.html')
+        return render_template(
+            'register.html', 
+            user='', 
+            name='', 
+            err='')
     elif request.method=='POST':
         resp, msg = auth.create_user(
             user = request.form['username'].lower().strip(),
             password = request.form['password'].strip(),
             name = request.form['name'].strip())
-        return msg
-        # return redirect(url_for('home'))
+        if not resp:
+            return render_template(
+                'register.html', 
+                user=request.form['username'].strip(), 
+                name=request.form['name'].strip(), 
+                err=msg)
+        session['session']=resp
+        return redirect(url_for('home'))
     
 
 @app.route('/logout')
