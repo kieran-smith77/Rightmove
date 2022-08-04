@@ -8,7 +8,7 @@
             <h4>{{ item.bedrooms }} rooms</h4>
         </div>
         <div class="price rounded m-2">
-            <h4 class="m-2">£{{  "{:,.0f}".format(item.price) }}</h4>
+            <h4 class="m-2">£{{ "{:,.0f}".format(item.price) }}</h4>
         </div>
     </div>
     <hr>
@@ -22,7 +22,6 @@
             {%endfor%}
         </ul>
         {% endautoescape %}
-
     </div>
     <br>
     <hr>
@@ -40,6 +39,8 @@
                     <div class="accordion-body">{% autoescape false %}
                         <p>{{ item.fullDescription }}</p>
                         {% endautoescape%}
+                        <a class="btn btn-primary" href="{{ item.url }}" role="button">View on Rightmove</a>
+                        <br>
                     </div>
                 </div>
             </div>

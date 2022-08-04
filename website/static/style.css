@@ -86,18 +86,21 @@ h5 {
     height: 53px;
     width: 53px;
     color: white; 
-    background-color:green; 
+    background-color:rgb(20, 203, 20); 
     border-radius: 50%;
     padding: 11px;
+    filter: drop-shadow(4px 4px 4px #5e5e62);
 }
 
 .cross-button {
     height: 53px;
     width: 53px;
     color: white; 
-    background-color:red; 
+    background-color:rgb(227, 35, 10); 
     border-radius: 50%;
     padding: 11px;
+    filter: drop-shadow(-4px 4px 4px #5e5e62);
+
 }
 
 .fa-xmark {

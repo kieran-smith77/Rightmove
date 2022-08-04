@@ -1,21 +1,15 @@
-<div class="fixed-bottom d-flex justify-content-center mb-5">
+<div class="fixed-bottom d-flex justify-content-center">
     <div class="d-flex justify-content-between rating-container">
-
-        <div class="align-self-end cross-button" href>
-            <a href="/Bad/{{ item.id }}" role="button">
-            <i class="fa-regular fa-xmark fa-2x"></i>
-            </a>   
-        </div>
-        <div class="align-self-start web-button">
-            <a href="{{ item.url }}" target='_blank' role="button">
-            <i class="fa-regular fa-window-restore fa-2x "></i>
-            </a>
-        </div>
-        <div class="align-self-end tick-button">
-            <a href="/Good/{{ item.id }}" role="button">
-            <i class="fa-regular fa-check fa-2x"></i>
+        <a href="/Bad/{{ item.id }}" role="button">
+            <div class="align-self-end cross-button" href>
+                <i class="fa-regular fa-xmark fa-2x"></i>
+            </div>
         </a>
-        </div>
+        <a href="/Good/{{ item.id }}" role="button">
+            <div class="align-self-end tick-button">
+                <i class="fa-regular fa-check fa-2x"></i>
+            </div>
+        </a>
 
     </div>
 </div>

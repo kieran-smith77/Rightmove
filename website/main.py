@@ -1,11 +1,12 @@
-import asm
-import db
-
 from flask import Flask, render_template, redirect, url_for
+import db
+import asm
 from decorators import login_required
 
 app = Flask(__name__, static_folder="static")
 app.secret_key = asm.get_secret_key()
+
+import auth_paths  # noqa: F401, E402
 
 
 @app.route("/")
