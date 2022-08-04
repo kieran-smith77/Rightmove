@@ -109,9 +109,9 @@ resource "aws_iam_policy" "rightmove_policy" {
         Effect = "Allow"
         Resource = [
           "${aws_dynamodb_table.storage_table.arn}/*",
-          "${aws_dynamodb_table.storage_table.arn}",
+          aws_dynamodb_table.storage_table.arn,
           "${aws_dynamodb_table.user_table.arn}/*",
-          "${aws_dynamodb_table.user_table.arn}",
+          aws_dynamodb_table.user_table.arn,
         ]
       },
     ]
