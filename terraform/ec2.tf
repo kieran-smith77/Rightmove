@@ -20,7 +20,7 @@ resource "aws_security_group" "rightmove" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.security_group_cidrs
   }
 
   egress {
@@ -37,7 +37,7 @@ resource "aws_security_group" "rightmove" {
 }
 
 resource "aws_iam_role" "rightmove" {
-  name = "rightmove_webserver"
+  name                = "rightmove_webserver"
   managed_policy_arns = [aws_iam_policy.rightmove_policy.arn]
 
   assume_role_policy = jsonencode({
@@ -120,7 +120,7 @@ resource "aws_iam_policy" "rightmove_policy" {
 
 resource "aws_iam_instance_profile" "rightmove" {
   name = "rightmove_profile"
-  role = "${aws_iam_role.rightmove.name}"
+  role = aws_iam_role.rightmove.name
 }
 
 resource "aws_instance" "web_server" {
@@ -129,7 +129,7 @@ resource "aws_instance" "web_server" {
   key_name               = "Rightmove"
   vpc_security_group_ids = [aws_security_group.rightmove.id]
   user_data              = file("../server_setup.sh")
-  iam_instance_profile = "${aws_iam_instance_profile.rightmove.name}"
+  iam_instance_profile   = aws_iam_instance_profile.rightmove.name
   tags = {
     Name = "RightmoveServer"
   }
