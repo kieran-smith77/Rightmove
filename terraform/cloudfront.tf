@@ -1,7 +1,7 @@
 locals {
   domain_name = "rightmove.kieran-smith.com"
-  origin_dns   = aws_instance.web_server.public_dns
-  origin_id = "webserver"
+  origin_dns  = aws_instance.web_server.public_dns
+  origin_id   = "webserver"
 }
 
 resource "aws_cloudfront_distribution" "rightmove_distribution" {
@@ -39,9 +39,9 @@ resource "aws_cloudfront_distribution" "rightmove_distribution" {
   }
   viewer_certificate {
     # cloudfront_default_certificate = true
-    acm_certificate_arn = aws_acm_certificate.rightmove_cert.arn
-minimum_protocol_version       = "TLSv1.2_2021"
-ssl_support_method             = "sni-only"
+    acm_certificate_arn      = aws_acm_certificate.rightmove_cert.arn
+    minimum_protocol_version = "TLSv1.2_2021"
+    ssl_support_method       = "sni-only"
   }
   depends_on = [aws_instance.web_server]
 }
