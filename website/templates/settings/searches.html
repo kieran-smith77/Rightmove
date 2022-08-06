@@ -1,0 +1,48 @@
+<div class="card mr-2">
+  <div class="card-header">Searches</div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush">
+      {%for item in user.searches %}
+      <li class="list-group-item">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-heading{{loop.index}}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#flush-collapse{{loop.index}}" aria-expanded="false"
+              aria-controls="flush-collapse{{loop.index}}">
+              {{item.description}}
+            </button>
+          </h2>
+          <div id="flush-collapse{{loop.index}}" class="accordion-collapse collapse"
+            aria-labelledby="flush-heading{{loop.index}}" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <form action="/settings" method="post">
+                <textarea class="form-control" id="exampleFormControlTextarea{{loop.index}}" rows="3"
+                  name="{{ item.description }}">{{item.link}}</textarea>
+                <div class="col-auto pt-2">
+                  <button type="submit" class="btn btn-primary mb-3">Update</button>
+                  <button type="submit" form="deleteForm{{loop.index}}" class="btn btn-danger mb-3" value="Delete">Remove</button>
+                </div>
+              </form>
+              <form id="deleteForm{{loop.index}}" action="/settings" method="POST">
+                <input type="hidden" name="remove" value="{{loop.index}}">
+              </form>
+            </div>
+          </div>
+        </div>
+      </li>
+      {%endfor%}
+    </ul>
+    <button onclick="newSearch()" class="btn btn-warning mb-3">New</button>
+    <div id="newSearch" style="display: none;">
+      <form action="/settings" method="post">
+        <label for="newSearchName" class="form-label">Search Name</label>
+        <input type="text" class="form-control" id="newSearchName" name="newSearchName">
+        <label for="newSearch" class="form-label pt-3">Search URL</label>
+        <textarea class="form-control" id="newSearch" rows="3" name="newSearchUrl"></textarea>
+        <div class="col-auto pt-2">
+          <button type="submit" class="btn btn-primary mb-3">Add new search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

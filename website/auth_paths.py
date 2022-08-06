@@ -9,7 +9,7 @@ from asm import enable_registration
 def login():
     session.pop("session", default=None)
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("user/login.html")
     elif request.method == "POST":
         user = request.form["user"].lower().strip()
         password = request.form["password"].strip()
@@ -18,9 +18,9 @@ def login():
             session["session"] = verified
             return redirect(url_for("home"))
         elif verified is False:
-            return render_template("login.html", err="pass", user=user)
+            return render_template("user/login.html", err="pass", user=user)
         else:
-            return render_template("login.html", err="user", user=user)
+            return render_template("user/login.html", err="user", user=user)
 
 
 @app.route("/register", methods=["get", "post"])
@@ -30,7 +30,7 @@ def register():
         return redirect(url_for("home"))
 
     if request.method == "GET":
-        return render_template("register.html", user="", name="", err="")
+        return render_template("user/register.html", user="", name="", err="")
     elif request.method == "POST":
         resp, msg = auth.create_user(
             user=request.form["username"].lower().strip(),
@@ -39,7 +39,7 @@ def register():
         )
         if not resp:
             return render_template(
-                "register.html",
+                "user/register.html",
                 user=request.form["username"].strip(),
                 name=request.form["name"].strip(),
                 err=msg,
@@ -53,3 +53,26 @@ def register():
 def logout():
     session.pop("session", default=None)
     return redirect(url_for("home"))
+
+
+@app.route("/settings", methods=["get", "post", "delete"])
+@login_required
+def settings():
+    if request.method == "GET":
+        err = None
+        user_id = session.get("session")
+        user = auth.get_user(user_id)
+        return render_template("user/settings.html", err=err, user=user)
+
+    if request.method == "POST":
+        if len(request.form.keys()) == 1:
+            if "remove" in request.form:
+                auth.remove_search(data=request.form, user_id=session.get("session"))
+
+            else:
+                auth.update_search(data=request.form, user_id=session.get("session"))
+
+        elif len(request.form.keys()) == 2:
+            auth.new_search(data=request.form, user_id=session.get("session"))
+
+        return redirect(url_for("settings"))
