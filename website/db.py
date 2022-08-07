@@ -4,7 +4,7 @@ import collections
 from boto3.dynamodb.conditions import Key
 
 dynamodb = boto3.resource("dynamodb", region_name="eu-west-2")
-table = dynamodb.Table("rightmove_dev_table")
+table = dynamodb.Table("rightmove_table")
 
 
 def get_new_item(user_id):

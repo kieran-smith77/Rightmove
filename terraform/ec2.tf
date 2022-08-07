@@ -82,17 +82,7 @@ resource "aws_iam_policy" "rightmove_policy" {
         Action = [
           "ssm:GetParameter",
           "ssm:DescribeParameters",
-        ]
-        Effect = "Allow"
-        Resource = [
-          aws_ssm_parameter.webhooks.arn,
-          aws_ssm_parameter.searches.arn,
-        ]
-      },
-      {
-        Action = [
-          "ssm:GetParameter",
-          "ssm:DescribeParameters",
+          "ssm:PutParameter",
         ]
         Effect = "Allow"
         Resource = [
