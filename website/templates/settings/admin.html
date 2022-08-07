@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-header">Toggle Resitration</div>
+    <div class="card-body">
+    <form id="toggleRegistration" action="/settings" method="POST">
+        <input type="hidden" name="type" value="registration">
+        {% if registration %}
+        <button type="submit" form="toggleRegistration" class="btn btn-warning mb-3">Disable</button>
+        {% else %}
+        <button type="submit" form="toggleRegistration" class="btn btn-success mb-3">Enable</button>
+        {% endif %}
+  </form>
+    </div>
+</div>

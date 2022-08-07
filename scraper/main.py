@@ -1,38 +1,50 @@
 #! python3
-import boto3
 import ddb
 import time
-import tools
 import webhooks
-
+import pandas as pd
+from tqdm import tqdm
 from rightmove_webscraper import RightmoveData
-from progress.bar import Bar
 
-ssm = boto3.client("ssm", region_name="eu-west-2")
-parameter = ssm.get_parameter(Name="/rightmove/scraper/searches")
-search_url = parameter["Parameter"]["Value"].split(",")[0]
+searches = ddb.get_searches()
 
-rm = RightmoveData(search_url)
+final_df = None
 
-print(rm.results_count, "results matched search.")
+for user in searches:
+    userId = user["userId"]
+    links = user["searches"]
+    for search in links:
+        search_description = search["description"]
+        search_url = search["link"]
 
-all_results = []
-new_listings = 0
+        rm = RightmoveData(search_url)
+        print(rm.results_count, "results matched search.")
 
-bar = Bar("Processing", max=rm.results_count)
-for i in rm.get_results["url"]:
-    id = int(i.split("/")[-2].replace("#", ""))
-    if not ddb.exists(id):
-        new_listings += 1
-        time.sleep(0.5)
-        all_results.append(tools.get_property(id))
-    bar.next()
-bar.finish()
+        rm = rm.get_results["url"]
+        rm = pd.DataFrame(
+            {"url": rm.values, "userId": userId, "search": search_description}
+        )
 
-if new_listings:
-    print("\n" + str(new_listings) + " new listings found.")
-    webhooks.alert(new_listings)
-else:
-    print("No new listings found.")
+        if final_df is None:
+            final_df = rm
+        else:
+            final_df = pd.concat([final_df, rm])
 
-ddb.upload(all_results)
+new_listings = {}
+rm = final_df
+
+for index, listing in tqdm(rm.iterrows(), total=len(rm)):
+    id = int(listing["url"].split("/")[-2].replace("#", ""))
+    user = listing["userId"]
+    search = listing["search"]
+
+    if not ddb.exists(id, user, search):
+        try:
+            new_listings[user] += 1
+        except KeyError:
+            new_listings[user] = 1
+    time.sleep(0.5)
+
+for user, count in new_listings.items():
+    print(f"\n{count} new listings found for user ID: {user}")
+    webhooks.alert(user, count)

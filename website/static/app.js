@@ -33,3 +33,12 @@ function initMap() {
       x.style.display = "none";
     }
   }
+
+  function newWebhook() {
+    var x = document.getElementById("newWebhook");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }

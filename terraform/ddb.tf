@@ -47,3 +47,36 @@ resource "aws_dynamodb_table" "user_table" {
     prevent_destroy = true
   }
 }
+
+resource "aws_dynamodb_table" "test_table" {
+  name         = "rightmove_dev_table"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "user"
+  range_key    = "id"
+  attribute {
+    name = "id"
+    type = "N"
+  }
+  attribute {
+    name = "user"
+    type = "N"
+  }
+  attribute {
+    name = "review"
+    type = "S"
+  }
+  global_secondary_index {
+    hash_key        = "user"
+    range_key       = "review"
+    name            = "review"
+    projection_type = "ALL"
+  }
+  ttl {
+    attribute_name = "TimeToLive"
+    enabled        = true
+  }
+  lifecycle {
+    prevent_destroy = true
+  }
+
+}

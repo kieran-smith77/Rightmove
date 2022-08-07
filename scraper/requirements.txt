@@ -1,3 +1,5 @@
 rightmove-webscraper
 boto3
 progress
+pandas
+tqdm

@@ -1,0 +1,51 @@
+<div class="card pr-2 mr-2">
+    <div class="card-header">Webhooks</div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        {%for item in user.webhooks %}
+        <li class="list-group-item">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading{{loop.index}}">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#webhook-collapse{{loop.index}}" aria-expanded="false"
+                aria-controls="webhook-collapse{{loop.index}}">
+                {{item.description}}
+              </button>
+            </h2>
+            <div id="webhook-collapse{{loop.index}}" class="accordion-collapse collapse"
+              aria-labelledby="webhook-heading{{loop.index}}" data-bs-parent="#flush-heading{{loop.index}}">
+              <div class="accordion-body">
+                <form action="/settings" method="post">
+                  <input type="hidden" name="type" value="webhook">
+                  <textarea class="form-control" id="exampleFormControlTextarea{{loop.index}}" rows="3"
+                    name="{{ item.description }}">{{item.link}}</textarea>
+                  <div class="col-auto pt-2">
+                    <button type="submit" class="btn btn-primary mb-3">Update</button>
+                    <button type="submit" form="deleteWebhookForm{{loop.index}}" class="btn btn-danger mb-3" value="Delete">Remove</button>
+                  </div>
+                </form>
+                <form id="deleteWebhookForm{{loop.index}}" action="/settings" method="POST">
+                  <input type="hidden" name="type" value="deleteWebhook">
+                  <input type="hidden" name="remove" value="{{loop.index}}">
+                </form>
+              </div>
+            </div>
+          </div>
+        </li>
+        {%endfor%}
+      </ul>
+      <button onclick="newWebhook()" class="btn btn-warning mb-3">New</button>
+      <div id="newWebhook" style="display: none;">
+        <form action="/settings" method="post">
+          <input type="hidden" name="type" value="newWebhook">
+          <label for="newWebhookName" class="form-label">Webhook Name</label>
+          <input type="text" class="form-control" id="newWebhookName" name="newWebhookName">
+          <label for="newWebhook" class="form-label pt-3">Webhook URL</label>
+          <textarea class="form-control" id="newWebhook" rows="3" name="newWebhookUrl"></textarea>
+          <div class="col-auto pt-2">
+            <button type="submit" class="btn btn-primary mb-3">Add new Webhook</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

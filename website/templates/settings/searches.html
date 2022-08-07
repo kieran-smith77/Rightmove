@@ -1,4 +1,4 @@
-<div class="card mr-2">
+<div class="card pr-4 mr-2">
   <div class="card-header">Searches</div>
   <div class="card-body">
     <ul class="list-group list-group-flush">
@@ -16,6 +16,7 @@
             aria-labelledby="flush-heading{{loop.index}}" data-bs-parent="#accordionFlushExample">
             <div class="accordion-body">
               <form action="/settings" method="post">
+                <input type="hidden" name="type" value="search">
                 <textarea class="form-control" id="exampleFormControlTextarea{{loop.index}}" rows="3"
                   name="{{ item.description }}">{{item.link}}</textarea>
                 <div class="col-auto pt-2">
@@ -24,6 +25,7 @@
                 </div>
               </form>
               <form id="deleteForm{{loop.index}}" action="/settings" method="POST">
+                <input type="hidden" name="type" value="deleteSearch">
                 <input type="hidden" name="remove" value="{{loop.index}}">
               </form>
             </div>
@@ -35,6 +37,7 @@
     <button onclick="newSearch()" class="btn btn-warning mb-3">New</button>
     <div id="newSearch" style="display: none;">
       <form action="/settings" method="post">
+        <input type="hidden" name="type" value="newSearch">
         <label for="newSearchName" class="form-label">Search Name</label>
         <input type="text" class="form-control" id="newSearchName" name="newSearchName">
         <label for="newSearch" class="form-label pt-3">Search URL</label>

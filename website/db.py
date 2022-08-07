@@ -4,13 +4,14 @@ import collections
 from boto3.dynamodb.conditions import Key
 
 dynamodb = boto3.resource("dynamodb", region_name="eu-west-2")
-table = dynamodb.Table("rightmove_table")
+table = dynamodb.Table("rightmove_dev_table")
 
 
-def get_new_item():
+def get_new_item(user_id):
     # return first item without review
     response = table.query(
-        IndexName="review", KeyConditionExpression=Key("review").eq("none")
+        IndexName="review",
+        KeyConditionExpression=Key("review").eq("none") & Key("user").eq(int(user_id)),
     )
     if response["Items"]:
         rn = randrange(len(response["Items"]))
@@ -21,9 +22,11 @@ def get_new_item():
         return ""
 
 
-def get_item(id):
+def get_item(id, user_id):
     # return item by id
-    response = table.query(KeyConditionExpression=Key("id").eq(int(id)))
+    response = table.query(
+        KeyConditionExpression=Key("id").eq(int(id)) & Key("user").eq(int(user_id))
+    )
     if response["Items"]:
         item = response["Items"][0]
         return collections.namedtuple("item", item.keys())(*item.values())
@@ -31,8 +34,7 @@ def get_item(id):
         return ""
 
 
-def get_old_items(good=None):
-    # Scan ddb for items where review = good
+def get_old_items(user_id, good=None):
     if good is True:
         check = "Good"
     elif good is False:
@@ -41,17 +43,19 @@ def get_old_items(good=None):
         check = None
     if check:
         response = table.query(
-            IndexName="review", KeyConditionExpression=Key("review").eq(check)
+            IndexName="review",
+            KeyConditionExpression=Key("review").eq(check)
+            & Key("user").eq(int(user_id)),
         )
     else:
         response = table.query(
-            IndexName="review", KeyConditionExpression=Key("review").eq("none")
+            IndexName="review",
+            KeyConditionExpression=Key("review").eq("none")
+            & Key("user").eq(int(user_id)),
         )
     if "Items" in response:
-        print(response)
         items = response["Items"]
     else:
-        print(response)
         items = []
 
     data = []
@@ -68,14 +72,26 @@ def get_old_items(good=None):
     return data
 
 
-def set_review(id, review):
+def set_review(id, user_id, review):
     # update item with review = review
     if review not in ["Good", "Bad"]:
         return None
 
     table.update_item(
-        Key={"id": int(id)},
+        Key={"id": int(id), "user": int(user_id)},
         UpdateExpression="SET review = :review",
         ExpressionAttributeValues={":review": review},
     )
     return None
+
+
+def copy_to_new(id, old_user, new_user, review):
+    if review not in ["Good", "Bad"]:
+        return None
+    old_user = int(old_user)
+
+    item = table.get_item(Key={"id": int(id), "user": int(old_user)})["Item"]
+    new_item = item
+    new_item["id"] = int(id)
+    new_item["user"] = int(new_user)
+    table.put_item(Item=new_item)

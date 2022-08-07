@@ -84,7 +84,7 @@ def update_search(data, user_id):
     for i in range(len(user["searches"])):
         search = user["searches"][i]
         if search["description"] in data.keys():
-            if check_url(data[search["description"]]):
+            if check_url(data[search["description"]], "www.rightmove.co.uk"):
                 user["searches"][i]["link"] = data[search["description"]]
 
             user_table.put_item(Item=user)
@@ -93,7 +93,7 @@ def update_search(data, user_id):
 def new_search(data, user_id):
     description = data["newSearchName"]
     link = data["newSearchUrl"]
-    if not check_url(link):
+    if not check_url(link, "www.rightmove.co.uk"):
         return None
 
     user = user_table.query(KeyConditionExpression=Key("userID").eq(int(user_id)))[
@@ -131,8 +131,94 @@ def remove_search(data, user_id):
         user_table.put_item(Item=user)
 
 
-def check_url(url):
+def update_webhook(data, user_id):
+    user = user_table.query(KeyConditionExpression=Key("userID").eq(int(user_id)))[
+        "Items"
+    ]
+    if not user:
+        return None
+    user = user[0]
+    for i in range(len(user["webhooks"])):
+        webhook = user["webhooks"][i]
+        if webhook["description"] in data.keys():
+            if check_url(data[webhook["description"]]):
+                user["webhooks"][i]["link"] = data[webhook["description"]]
+
+            user_table.put_item(Item=user)
+
+
+def new_webhook(data, user_id):
+    description = data["newWebhookName"]
+    link = data["newWebhookUrl"]
+    if not check_url(link):
+        return None
+
+    user = user_table.query(KeyConditionExpression=Key("userID").eq(int(user_id)))[
+        "Items"
+    ]
+    if user:
+        user = user[0]
+    else:
+        return None
+    if "webhooks" in user:
+        webhooks = user["webhooks"]
+        for webhook in webhooks:
+            if webhook["description"] == description:
+                return None
+
+        user["webhooks"].append({"description": description, "link": link})
+    else:
+        user["webhooks"] = [{"description": description, "link": link}]
+    user_table.put_item(Item=user)
+
+
+def remove_webhook(data, user_id):
+    user = user_table.query(KeyConditionExpression=Key("userID").eq(int(user_id)))[
+        "Items"
+    ]
+    if user:
+        user = user[0]
+    else:
+        return None
+
+    remove = int(data["remove"]) - 1
+    if "webhooks" in user:
+        del user["webhooks"][remove]
+        user_table.put_item(Item=user)
+
+
+def toggle_registration(user_id):
+    response = user_table.query(
+        KeyConditionExpression=Key("userID").eq(int(user_id)),
+        ProjectionExpression="admin",
+    )
+    if "Items" not in response:
+        print("a")
+        return None
+    if "admin" not in response["Items"][0]:
+        print("b")
+        return None
+    if response["Items"][0]["admin"] != "True":
+        print("c")
+        return None
+    print("authorized")
+    ssm = boto3.client("ssm", region_name="eu-west-2")
+    parameter = ssm.get_parameter(Name="/rightmove/app/registration")
+    if parameter["Parameter"]["Value"] == "True":
+        new_value = "False"
+    elif parameter["Parameter"]["Value"] == "False":
+        new_value = "True"
+
+    ssm.put_parameter(
+        Name="/rightmove/app/registration",
+        Overwrite=True,
+        Value=new_value,
+    )
+
+
+def check_url(url, domain=None):
     result = urlparse(url)
-    if result.netloc != "www.rightmove.co.uk":
-        return False
+    if domain:
+        if result.netloc != domain:
+            return False
     return all([result.scheme, result.netloc])

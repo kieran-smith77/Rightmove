@@ -1,10 +1,12 @@
 import requests
-import boto3
+import ddb
 
 
-def alert(count):
-    ssm = boto3.client("ssm", region_name="eu-west-2")
-    parameter = ssm.get_parameter(Name="/rightmove/scraper/webhooks")
-    webhooks = parameter["Parameter"]["Value"].split(",")
+def alert(user, count):
+    webhooks = ddb.get_webhooks(user)
     for webhook in webhooks:
         requests.post(webhook, json={"value1": str(count)})
+
+
+if __name__ == "__main__":
+    print(alert(1, 1))

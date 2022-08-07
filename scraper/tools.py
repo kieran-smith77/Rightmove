@@ -34,10 +34,15 @@ def get_property(id):
     import json
     import requests
 
+    headers = {
+        "User-Agent": "Rightmove property search/7.20 CFNetwork/808.3 Darwin/16.3.0"
+    }
+
     r = requests.get(
         "http://api.rightmove.co.uk/api/propertyDetails?apiApplication=IPAD&propertyId={}".format(
             id
-        )
+        ),
+        headers=headers,
     )
     data = json.loads(r.text)
     data = data["property"]

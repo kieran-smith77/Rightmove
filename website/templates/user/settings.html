@@ -7,16 +7,22 @@
     <div>
       <div class="card-group">
 
-        <div class="col-lg-4 col-md-4 col-sm-4 mb-2">
+        <div class="col-lg-2 col-md-4 col-sm-4 m-1">
           {% include 'settings/profile.html' %}
         </div>
 
-        <div class="col-lg-6 col-md-6 col-sm-4 mb-2">
+        <div class="col-lg-5 col-md-6 col-sm-4 m-1">
           {% include 'settings/searches.html' %}
         </div>
 
+        <div class="col-lg-4 col-md-6 col-sm-4 m-1">
+          {% include 'settings/webhook.html' %}
+        </div>
+        
         {% if admin %}
+        <div class="col-lg-2 col-md-6 col-sm-4 m-1">
           {% include 'settings/admin.html' %}
+        </div>
         {% endif %}
       </div>
     </div>
