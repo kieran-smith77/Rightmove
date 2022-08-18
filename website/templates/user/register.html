@@ -13,7 +13,7 @@
 
     <div class="main mb-5 card-deck">
         <div class="card my-1 mx-auto" style="width: 18rem;">
-            <form method="post" action = "/register">
+            <form class="m-2" method="post" action = "/register">
                 <h2 class="text-center"><strong>Create</strong> an account.</h2>
                 <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name" value="{{ name }}"></div>
                 {% if err == "NLen" %}
@@ -21,7 +21,7 @@
                     <i class="fa-solid fa-triangle-exclamation"></i> Name must be between 3 and 20 characters
                 </div>
                 {% endif %}
-                <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Username" value="{{ user }}"></div>
+                <div class="form-group"><input class="form-control mt-2" type="text" name="username" placeholder="Username" value="{{ user }}"></div>
                 {% if err == "Username" %}
                 <div class="alert alert-danger" role="alert">
                     <i class="fa-solid fa-triangle-exclamation"></i> This username is taken
@@ -32,7 +32,7 @@
                 <i class="fa-solid fa-triangle-exclamation"></i> Username must be between 4 and 20 characters
                 </div>
                 {% endif %}
-                <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
+                <div class="form-group"><input class="form-control mt-2" type="password" name="password" placeholder="Password"></div>
                 {% if err == "Password" %}
                 <div class="alert alert-danger" role="alert">
                     <i class="fa-solid fa-triangle-exclamation"></i> This password is too weak
@@ -44,7 +44,7 @@
                 </div>
                 {% endif %}
                 <div class="form-group">
-                    <input type="submit" name="submit" value="Sign up" class="btn btn-primary btn-block">
+                    <input type="submit" name="submit" value="Sign up" class="btn btn-primary btn-block mt-2">
                 </div>
                 <a href="/login" class="already">You already have an account? Login here.</a>
             </form>

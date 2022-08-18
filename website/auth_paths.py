@@ -9,7 +9,10 @@ from asm import enable_registration
 def login():
     session.pop("session", default=None)
     if request.method == "GET":
-        return render_template("user/login.html")
+        registration = False
+        if enable_registration():
+            registration = True
+        return render_template("user/login.html", registration=registration)
     elif request.method == "POST":
         user = request.form["user"].lower().strip()
         password = request.form["password"].strip()
@@ -61,6 +64,7 @@ def settings():
     if request.method == "GET":
         registration = None
         err = None
+        admin = False
         user_id = session.get("session")
         user = auth.get_user(user_id)
         if "admin" in user and user["admin"] == "True":

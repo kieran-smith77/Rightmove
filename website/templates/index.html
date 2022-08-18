@@ -1,8 +1,8 @@
 {% include 'shared/header.html' %}
 
 <body>
-
   {% include 'shared/nav.html' %}
+  {% if item %}
   <div class="main mb-5">
     <div style="width: 100%;">
       {% include 'listing/images.html' %}
@@ -14,6 +14,22 @@
   </div>
   <br>
   {% include 'listing/buttons.html' %}
+  {% else %}
+  <div class="main mb-5">
+      <div class="card mx-auto" style="max-width: 500px;">
+        <div class="card-header">Error Fetching Listing</div>
+        <div class="card-body">
+          No listings currently available. If you haven't already, please configure your <a href="/settings">search</a>
+          and then return in 24hrs.
+          <div class="mt-4 d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
   {% include 'shared/footer.html'%}
   <script src="static/app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

@@ -11,7 +11,7 @@
 
     <div class="main mb-5 card-deck">
         <div class="card my-1 mx-auto" style="width: 18rem;">
-            <form method="post" action="/login">
+            <form class="m-2" method="post" action="/login">
                 <h2 class=>Login Form</h2>
                 <div class="form-group"><input class="form-control" type="username" name="user" placeholder="Username" value="{{ user }}"></div>
                 {% if err == "user" %}
@@ -19,14 +19,17 @@
                     <i class="fa-solid fa-triangle-exclamation"></i> User not found
                 </div>
                 {% endif %}
-                <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
+                <div class="form-group"><input class="form-control mt-2" type="password" name="password" placeholder="Password"></div>
                 {% if err == "pass" %}
                 <div class="alert alert-danger" role="alert">
                     <i class="fa-solid fa-triangle-exclamation"></i> Password is incorrect
                 </div>
                 {% endif %}
-                <div class="form-group">
-                    <input type="submit" name="submit" value="Login" class="btn btn-primary btn-block">
+                <div class="form-group" style="text-align:center;">
+                    <input type="submit" name="submit" value="Login" class="btn btn-primary btn-block my-2">
+                    {% if registration %}
+                        <a href="/register" class="btn btn-warning m-2" role="button">Register</a>
+                    {% endif %}
                 </div>
             </form>
         </div>

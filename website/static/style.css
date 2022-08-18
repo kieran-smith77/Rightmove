@@ -5,14 +5,16 @@
     width: 100%;
 }
 .navbar-brand {
-    float:none;
+    display: block;
+    width: fit-content;
 }
 .navbar-nav {
     max-width: 1000px;
     margin:    0 auto;
     width: 100%;
 }
-
+.nav-item {
+}
 
 /* Carousel */
 .carousel-image {

@@ -15,7 +15,7 @@ def home():
     user_id = str(session.get("session"))
     data = db.get_new_item(user_id)
     if isinstance(data, str):
-        return "Currently out"
+        return render_template("index.html", good=None)
     return render_template("index.html", item=data, user=user_id, good=None)
 
 
