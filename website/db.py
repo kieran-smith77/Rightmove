@@ -2,6 +2,7 @@ from random import randrange
 import boto3
 import collections
 from boto3.dynamodb.conditions import Key
+import validators
 
 dynamodb = boto3.resource("dynamodb", region_name="eu-west-2")
 table = dynamodb.Table("rightmove_table")
@@ -17,9 +18,9 @@ def get_new_item(user_id):
         rn = randrange(len(response["Items"]))
         item = response.get("Items")[rn]
         item["photos"] += item["floorplans"]
-        return collections.namedtuple("item", item.keys())(*item.values())
-    else:
-        return ""
+        if validators.url(item["url"]):
+            return collections.namedtuple("item", item.keys())(*item.values())
+    return ""
 
 
 def get_item(id, user_id):
@@ -29,9 +30,10 @@ def get_item(id, user_id):
     )
     if response["Items"]:
         item = response["Items"][0]
-        return collections.namedtuple("item", item.keys())(*item.values())
-    else:
-        return ""
+        item["photos"] += item["floorplans"]
+        if validators.url(item["url"]):
+            return collections.namedtuple("item", item.keys())(*item.values())
+    return ""
 
 
 def get_old_items(user_id, good=None):
