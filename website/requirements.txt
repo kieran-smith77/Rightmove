@@ -3,3 +3,4 @@ boto3
 bcrypt
 password_strength
 validators
+werkzeug>=3.0.6 # not directly required, pinned by Snyk to avoid a vulnerability
